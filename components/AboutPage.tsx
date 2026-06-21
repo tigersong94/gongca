@@ -117,9 +117,11 @@ export default function AboutPage({ onBack }: AboutPageProps) {
         </ul>
 
         <h2 className="text-sm font-medium mb-3 text-[var(--color-text-muted)]">문의</h2>
-        <p className="text-sm text-[var(--color-text-muted)]">
+        <p className="text-sm text-[var(--color-text-muted)] mb-8">
           비즈니스 문의: <span className="underline">contact@gongca.org</span>
         </p>
+
+        <p className="text-xs text-[var(--color-text-muted)] text-center opacity-70">Serviced by Qho</p>
       </div>
     </div>
   );
