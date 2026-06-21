@@ -71,13 +71,13 @@ export default function AboutPage({ onBack }: AboutPageProps) {
           광고 없이, 공공데이터를 객관적으로 분석한 아카이브를 지향합니다.
         </p>
         <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-8">
-          공카는{" "}
-          
+공카는{" "}
+          <a                                          
             href="https://restaurant.coroke.net/"
             target="_blank"
             rel="noopener noreferrer"
             className="underline"
-          >
+          >                                           
             공직자 법인카드 식당 맛집 지도
           </a>{" "}
           기사를 보고 영감을 받아 시작됐습니다. 해당 데이터를 바탕으로 광화문, 시청 인근 공공기관의 업무추진비 데이터를 별도로 수집, 정리해 함께 통합했습니다.
