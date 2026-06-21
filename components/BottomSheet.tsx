@@ -22,10 +22,7 @@ const INSTITUTION_COLORS: Record<string, string> = {
 export default function BottomSheet({ restaurant, onClose }: BottomSheetProps) {
   if (!restaurant) return null;
 
-  const kakaoMapSearchUrl = `https://map.kakao.com/?q=${encodeURIComponent(
-    restaurant.name + " " + restaurant.address
-  )}`;
-
+const kakaoMapSearchUrl = `https://map.kakao.com/?q=${encodeURIComponent(restaurant.name)}`;
   const totalForBar = Object.values(restaurant.institutionAmounts).reduce((a, b) => a + b, 0);
   const institutionEntries = Object.entries(restaurant.institutionAmounts).sort(
     (a, b) => b[1] - a[1]
