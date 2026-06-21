@@ -82,6 +82,9 @@ export default function AboutPage({ onBack }: AboutPageProps) {
           </a>{" "}
           기사를 보고 영감을 받아 시작됐습니다. 해당 데이터를 바탕으로 광화문, 시청 인근 공공기관의 업무추진비 데이터를 별도로 수집, 정리해 함께 통합했습니다.
         </p>
+        <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-8">
+          그럼 맛점하세요 😋
+        </p>
 
         <h2 className="text-sm font-medium mb-3 text-[var(--color-text-muted)]">데이터 출처</h2>
         <div className="space-y-4 mb-3">
