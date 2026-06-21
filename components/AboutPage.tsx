@@ -71,8 +71,8 @@ export default function AboutPage({ onBack }: AboutPageProps) {
           광고 없이, 공공데이터를 객관적으로 분석한 아카이브를 지향합니다.
         </p>
         <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-8">
-          공카는 아래{" "}
-          <a
+          공카는{" "}
+          
             href="https://restaurant.coroke.net/"
             target="_blank"
             rel="noopener noreferrer"
@@ -111,15 +111,12 @@ export default function AboutPage({ onBack }: AboutPageProps) {
           <li>식당명은 카카오맵 검색 결과를 기준으로 정규화했으며, 일부 오매칭이 있을 수 있습니다.</li>
           <li>기관별 데이터 확보 기간이 달라 절대 비교에는 한계가 있습니다.</li>
           <li>지도 표시 범위는 서울/수도권으로 제한되어 있습니다.</li>
-          <li>데이터는 매월 업데이트를 목표로 하되, 기관별 공개 일정에 따라 조금씩 늦어질 수 있습니다.</li>
         </ul>
 
         <h2 className="text-sm font-medium mb-3 text-[var(--color-text-muted)]">문의</h2>
-        <p className="text-sm text-[var(--color-text-muted)] mb-8">
+        <p className="text-sm text-[var(--color-text-muted)]">
           비즈니스 문의: <span className="underline">contact@gongca.org</span>
         </p>
-
-        <p className="text-xs text-[var(--color-text-muted)] text-center opacity-70">Serviced by Qho</p>
       </div>
     </div>
   );
