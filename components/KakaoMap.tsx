@@ -91,33 +91,48 @@ export default function KakaoMap({ restaurants, onSelectRestaurant }: KakaoMapPr
   useEffect(() => {
     if (!sdkLoaded || !mapInstance.current || !clustererRef.current) return;
 
-    clustererRef.current.clear();
-    markersRef.current.forEach((m) => m.setMap(null));
-    markersRef.current = [];
+    let cancelled = false;
 
-    const markers = restaurants.map((r) => {
-      const { svg, width, height } = buildCardStackSVG(r.tier);
-      const imageSrc = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-      const imageSize = new window.kakao.maps.Size(width, height);
-      const imageOption = { offset: new window.kakao.maps.Point(width / 2, height) };
-      const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+    const renderMarkers = () => {
+      if (cancelled) return;
+      clustererRef.current.clear();
+      markersRef.current.forEach((m: any) => m.setMap(null));
+      markersRef.current = [];
 
-      const position = new window.kakao.maps.LatLng(r.lat, r.lng);
-      const marker = new window.kakao.maps.Marker({
-        position,
-        image: markerImage,
-        title: r.name,
+      const markers = restaurants.map((r) => {
+        const { svg, width, height } = buildCardStackSVG(r.tier);
+        const imageSrc = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+        const imageSize = new window.kakao.maps.Size(width, height);
+        const imageOption = { offset: new window.kakao.maps.Point(width / 2, height) };
+        const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+        const position = new window.kakao.maps.LatLng(r.lat, r.lng);
+        const marker = new window.kakao.maps.Marker({
+          position,
+          image: markerImage,
+          title: r.name,
+        });
+
+        window.kakao.maps.event.addListener(marker, "click", () => {
+          onSelectRestaurant(r);
+        });
+
+        return marker;
       });
 
-      window.kakao.maps.event.addListener(marker, "click", () => {
-        onSelectRestaurant(r);
-      });
+      markersRef.current = markers;
+      clustererRef.current.addMarkers(markers);
+    };
 
-      return marker;
+    // 지도가 먼저 보이도록, 마커 생성은 한 프레임 뒤로 미룸
+    const id = window.requestAnimationFrame(() => {
+      window.setTimeout(renderMarkers, 0);
     });
 
-    markersRef.current = markers;
-    clustererRef.current.addMarkers(markers);
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(id);
+    };
   }, [sdkLoaded, restaurants, onSelectRestaurant]);
 
   return (

@@ -1,19 +1,24 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import KakaoMap from "@/components/KakaoMap";
 import BottomSheet from "@/components/BottomSheet";
 import DrawerMenu from "@/components/DrawerMenu";
 import AboutPage from "@/components/AboutPage";
 import { Restaurant } from "@/types/restaurant";
-import restaurantsData from "@/data/restaurants.json";
-
-const restaurants = restaurantsData as Restaurant[];
 
 export default function Home() {
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [selected, setSelected] = useState<Restaurant | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [page, setPage] = useState<"map" | "about">("map");
+
+  useEffect(() => {
+    fetch("/data/restaurants.json")
+      .then((res) => res.json())
+      .then((data: Restaurant[]) => setRestaurants(data))
+      .catch((err) => console.error("식당 데이터 로드 실패:", err));
+  }, []);
 
   const handleSelect = useCallback((r: Restaurant) => {
     setSelected(r);
