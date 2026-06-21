@@ -43,7 +43,7 @@ button {
 
 /* 드로어 슬라이드 애니메이션 */
 @keyframes drawerIn {
-  from { transform: translateX(-100%); }
+  from { transform: translateX(100%); }
   to { transform: translateX(0); }
 }
 .drawer-enter {
