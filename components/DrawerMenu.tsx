@@ -34,6 +34,15 @@ export default function DrawerMenu({ open, onClose, onNavigate }: DrawerMenuProp
             <i className="ti ti-map text-lg" aria-hidden="true" />
             <span className="text-sm">법카 맵</span>
           </button>
+
+          <div className="w-full text-left px-3 py-3 rounded-lg flex items-center gap-3 opacity-45 cursor-not-allowed select-none">
+            <i className="ti ti-trophy text-lg" aria-hidden="true" />
+            <span className="text-sm">법카 Top Ranking</span>
+            <span className="ml-auto text-[10px] font-medium bg-[#FF6600] text-white px-2 py-0.5 rounded-full">
+              Beta
+            </span>
+          </div>
+
           <button
             onClick={() => {
               onNavigate("about");
