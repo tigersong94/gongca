@@ -6,10 +6,10 @@ const SITE_URL = "https://gongca.org";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "GongCa 💳 (직장인 점메추)",
-  description: "공무원/국회의원 법카 데이터 기반 식당 아카이브",
+  description: "공공기관·국회의원 법카 결제 3.7만 건 기반 식당 아카이브",
   openGraph: {
     title: "GongCa 💳 (직장인 점메추)",
-    description: "공무원/국회의원 법카 데이터 기반 식당 아카이브",
+    description: "공공기관·국회의원 법카 결제 3.7만 건 기반 식당 아카이브",
     url: SITE_URL,
     siteName: "공무원 법카 맛집",
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "GongCa 💳 (직장인 점메추)",
-    description: "공무원/국회의원 법카 데이터 기반 식당 아카이브",
+    description: "공공기관·국회의원 법카 결제 3.7만 건 기반 식당 아카이브",
     images: ["/og-image.png"],
   },
 };

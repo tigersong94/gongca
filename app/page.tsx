@@ -5,7 +5,8 @@ import KakaoMap from "@/components/KakaoMap";
 import BottomSheet from "@/components/BottomSheet";
 import DrawerMenu from "@/components/DrawerMenu";
 import AboutPage from "@/components/AboutPage";
-import { Restaurant } from "@/types/restaurant";
+import { Restaurant, Tier } from "@/types/restaurant";
+import { buildCardStackSVG } from "@/lib/cardMarker";
 
 function MenuIcon() {
   return (
@@ -14,6 +15,38 @@ function MenuIcon() {
       <line x1="4" y1="12" x2="20" y2="12" />
       <line x1="4" y1="18" x2="20" y2="18" />
     </svg>
+  );
+}
+
+const TIER_LEGEND: { tier: Tier; label: string }[] = [
+  { tier: "A", label: "결제건수 상위 5%" },
+  { tier: "B", label: "결제건수 상위 5~20%" },
+  { tier: "C", label: "결제건수 상위 20~50%" },
+  { tier: "D", label: "그 외" },
+];
+
+function TierLegend() {
+  return (
+    <div className="bg-white/95 shadow-md rounded-xl px-3 py-2 space-y-1">
+      {TIER_LEGEND.map(({ tier, label }) => {
+        const { svg, width, height } = buildCardStackSVG(tier);
+        return (
+          <div key={tier} className="flex items-center gap-2">
+            <div
+              style={{ width: 22, height: 18 }}
+              className="flex items-end justify-center shrink-0"
+              dangerouslySetInnerHTML={{
+                __html: svg.replace(
+                  "<svg",
+                  `<svg style="width:${Math.min(width, 22)}px;height:auto;max-height:18px"`
+                ),
+              }}
+            />
+            <span className="text-[10px] text-[var(--color-text-muted)] leading-none">{label}</span>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -48,8 +81,11 @@ export default function Home() {
             <MenuIcon />
           </button>
 
-          <div className="absolute top-4 left-4 z-30 bg-white shadow-md rounded-full px-4 py-2">
-            <span className="text-sm font-medium">공무원 법카 맛집</span>
+          <div className="absolute top-4 left-4 z-30 flex flex-col gap-2">
+            <div className="bg-[#0a1f44] shadow-md rounded-full px-4 py-2 inline-flex w-fit">
+              <span className="text-sm font-bold text-[#FFD23F]">공카 by Qho</span>
+            </div>
+            <TierLegend />
           </div>
 
           <BottomSheet restaurant={selected} onClose={() => setSelected(null)} />
