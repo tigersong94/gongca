@@ -21,7 +21,7 @@ export default function DrawerMenu({ open, onClose, onNavigate }: DrawerMenuProp
   return (
     <>
       <div className="fixed inset-0 bg-black/30 z-[60]" onClick={onClose} />
-      <div className="drawer-enter fixed top-0 left-0 bottom-0 z-[70] w-72 bg-white shadow-xl flex flex-col">
+      <div className="drawer-enter fixed top-0 right-0 bottom-0 z-[70] w-72 bg-white shadow-xl flex flex-col">
         <div className="px-5 py-5 border-b border-[var(--color-border)] flex items-center justify-between">
           <span className="text-base font-medium">Gongca로 점메추 😋</span>
           <button
