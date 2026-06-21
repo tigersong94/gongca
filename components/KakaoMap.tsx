@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Restaurant } from "@/types/restaurant";
 import { buildCardStackSVG } from "@/lib/cardMarker";
+import { applyJitter } from "@/lib/jitter";
 
 interface KakaoMapProps {
   restaurants: Restaurant[];
@@ -99,14 +100,16 @@ export default function KakaoMap({ restaurants, onSelectRestaurant }: KakaoMapPr
       markersRef.current.forEach((m: any) => m.setMap(null));
       markersRef.current = [];
 
-      const markers = restaurants.map((r) => {
+      const jittered = applyJitter(restaurants);
+
+      const markers = jittered.map((r) => {
         const { svg, width, height } = buildCardStackSVG(r.tier);
         const imageSrc = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
         const imageSize = new window.kakao.maps.Size(width, height);
         const imageOption = { offset: new window.kakao.maps.Point(width / 2, height) };
         const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
-        const position = new window.kakao.maps.LatLng(r.lat, r.lng);
+        const position = new window.kakao.maps.LatLng(r.jitteredLat, r.jitteredLng);
         const marker = new window.kakao.maps.Marker({
           position,
           image: markerImage,
