@@ -7,6 +7,16 @@ import DrawerMenu from "@/components/DrawerMenu";
 import AboutPage from "@/components/AboutPage";
 import { Restaurant } from "@/types/restaurant";
 
+function MenuIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="18" x2="20" y2="18" />
+    </svg>
+  );
+}
+
 export default function Home() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [selected, setSelected] = useState<Restaurant | null>(null);
@@ -33,9 +43,9 @@ export default function Home() {
           <button
             onClick={() => setDrawerOpen(true)}
             aria-label="메뉴 열기"
-            className="absolute top-4 right-4 z-30 w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center active:scale-95 transition-transform"
+            className="absolute top-4 right-4 z-30 w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center active:scale-95 transition-transform text-[var(--color-text)]"
           >
-            <i className="ti ti-menu-2 text-xl" aria-hidden="true" />
+            <MenuIcon />
           </button>
 
           <div className="absolute top-4 left-4 z-30 bg-white shadow-md rounded-full px-4 py-2">
