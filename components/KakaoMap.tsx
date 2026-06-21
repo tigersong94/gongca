@@ -52,6 +52,9 @@ export default function KakaoMap({ restaurants, onSelectRestaurant }: KakaoMapPr
     });
     map.setMaxLevel(11);
 
+    const zoomControl = new window.kakao.maps.ZoomControl();
+    map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT, 1);
+
     const sw = new window.kakao.maps.LatLng(SEOUL_BOUNDS.swLat, SEOUL_BOUNDS.swLng);
     const ne = new window.kakao.maps.LatLng(SEOUL_BOUNDS.neLat, SEOUL_BOUNDS.neLng);
     const bounds = new window.kakao.maps.LatLngBounds(sw, ne);
