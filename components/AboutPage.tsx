@@ -72,7 +72,7 @@ export default function AboutPage({ onBack }: AboutPageProps) {
         </p>
         <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-8">
           공카는 아래{" "}
-          
+          <a
             href="https://restaurant.coroke.net/"
             target="_blank"
             rel="noopener noreferrer"
