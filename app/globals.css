@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg: #ffffff;
+  --color-text: #1c1c1a;
+  --color-text-muted: #6b6a64;
+  --color-border: #e5e3da;
+  --color-surface: #f7f6f1;
+
+  /* 티어 색상 */
+  --tier-d: #5DCAA5;
+  --tier-d-dark: #0F6E56;
+  --tier-c: #F2A623;
+  --tier-c-dark: #BA7517;
+  --tier-b: #D87E1A;
+  --tier-b-dark: #854F0B;
+  --tier-a: #C0392B;
+  --tier-a-dark: #641C13;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+button {
+  font-family: inherit;
+}
+
+/* 바텀시트 슬라이드업 애니메이션 */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.sheet-enter {
+  animation: slideUp 0.25s ease-out;
+}
+
+/* 드로어 슬라이드 애니메이션 */
+@keyframes drawerIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+.drawer-enter {
+  animation: drawerIn 0.2s ease-out;
+}
