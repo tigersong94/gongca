@@ -7,17 +7,17 @@ const TIER_CONFIG: Record<Tier, { fill: string; dark: string; cardCount: number 
   A: { fill: "#C0392B", dark: "#641C13", cardCount: 4 },
 };
 
-const CARD_W = 30;
-const CARD_H = 19;
-const GAP_X = 1.5;
-const GAP_Y = 2.5;
+const CARD_W = 20;
+const CARD_H = 13;
+const GAP_X = 1;
+const GAP_Y = 1.7;
 
 function singleCard(x: number, y: number, fill: string, dark: string): string {
   return `
     <g transform="translate(${x},${y})">
-      <rect x="0" y="0" width="${CARD_W}" height="${CARD_H}" rx="3" fill="${fill}" fill-opacity="0.78" stroke="${dark}" stroke-width="0.6"/>
-      <rect x="0" y="4" width="${CARD_W}" height="3.2" fill="${dark}" fill-opacity="0.55"/>
-      <rect x="2.5" y="10.5" width="17" height="3" rx="0.8" fill="#ffffff" fill-opacity="0.6"/>
+      <rect x="0" y="0" width="${CARD_W}" height="${CARD_H}" rx="2" fill="${fill}" fill-opacity="0.78" stroke="${dark}" stroke-width="0.5"/>
+      <rect x="0" y="2.7" width="${CARD_W}" height="2.2" fill="${dark}" fill-opacity="0.55"/>
+      <rect x="1.7" y="7" width="11.5" height="2" rx="0.5" fill="#ffffff" fill-opacity="0.6"/>
     </g>
   `;
 }
