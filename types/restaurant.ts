@@ -12,6 +12,7 @@ export interface Restaurant {
   tier: Tier;
   institutionAmounts: Record<string, number>;
   institutionCounts: Record<string, number>;
+  place_id?: string;
 }
 
 declare global {

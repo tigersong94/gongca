@@ -36,7 +36,9 @@ function KakaoMapIcon() {
 export default function BottomSheet({ restaurant, onClose }: BottomSheetProps) {
   if (!restaurant) return null;
 
-  const kakaoMapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(restaurant.name)},${restaurant.lat},${restaurant.lng}`;
+  const kakaoMapUrl = restaurant.place_id
+    ? `https://place.map.kakao.com/${restaurant.place_id}`
+    : `https://map.kakao.com/link/map/${encodeURIComponent(restaurant.name)},${restaurant.lat},${restaurant.lng}`;
   const totalForBar = Object.values(restaurant.institutionAmounts).reduce((a, b) => a + b, 0);
   const institutionEntries = Object.entries(restaurant.institutionAmounts).sort(
     (a, b) => b[1] - a[1]
