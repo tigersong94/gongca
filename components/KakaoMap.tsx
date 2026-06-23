@@ -149,6 +149,9 @@ export default function KakaoMap({ restaurants, onSelectRestaurant }: KakaoMapPr
     };
   }, [sdkLoaded, restaurants, onSelectRestaurant]);
 
+  const locationOverlayRef = useRef<any>(null);
+  const accuracyCircleRef = useRef<any>(null);
+
   const handleGps = () => {
     if (!mapInstance.current) return;
     if (!navigator.geolocation) {
@@ -159,8 +162,48 @@ export default function KakaoMap({ restaurants, onSelectRestaurant }: KakaoMapPr
     setGpsError(null);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const { latitude, longitude } = pos.coords;
+        const { latitude, longitude, accuracy } = pos.coords;
         const latlng = new window.kakao.maps.LatLng(latitude, longitude);
+
+        // 기존 오버레이 제거
+        if (locationOverlayRef.current) {
+          locationOverlayRef.current.setMap(null);
+        }
+        if (accuracyCircleRef.current) {
+          accuracyCircleRef.current.setMap(null);
+        }
+
+        // 파란 점 (커스텀 오버레이)
+        const dotEl = document.createElement("div");
+        dotEl.style.cssText = `
+          width: 16px; height: 16px;
+          background: #2563EB;
+          border: 2.5px solid #fff;
+          border-radius: 50%;
+          box-shadow: 0 0 6px rgba(37,99,235,0.5);
+          transform: translate(-50%, -50%);
+        `;
+        const overlay = new window.kakao.maps.CustomOverlay({
+          position: latlng,
+          content: dotEl,
+          zIndex: 10,
+        });
+        overlay.setMap(mapInstance.current);
+        locationOverlayRef.current = overlay;
+
+        // 정확도 반경 원
+        const circle = new window.kakao.maps.Circle({
+          center: latlng,
+          radius: Math.min(accuracy, 300),
+          strokeWeight: 1,
+          strokeColor: "#2563EB",
+          strokeOpacity: 0.4,
+          fillColor: "#2563EB",
+          fillOpacity: 0.08,
+        });
+        circle.setMap(mapInstance.current);
+        accuracyCircleRef.current = circle;
+
         mapInstance.current.panTo(latlng);
         setGpsLoading(false);
       },
