@@ -60,26 +60,42 @@ function InstitutionFilter({
   selected: Institution;
   onChange: (v: Institution) => void;
 }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 w-[calc(100%-140px)] max-w-sm">
-      <div className="flex gap-1.5 overflow-x-auto no-scrollbar px-1 pb-0.5">
-        {INSTITUTIONS.map((inst) => {
-          const active = selected === inst;
-          return (
+    <div className="relative w-fit">
+      {/* 드롭다운 버튼 */}
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-1.5 bg-white/95 shadow-md rounded-xl px-3 py-2 text-xs font-semibold text-[var(--color-text)] active:scale-95 transition-transform"
+      >
+        <span>{selected}</span>
+        <svg
+          width="10" height="10" viewBox="0 0 10 10" fill="none"
+          className={`transition-transform ${open ? "rotate-180" : ""}`}
+        >
+          <path d="M1 3l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      {/* 드롭다운 목록 */}
+      {open && (
+        <div className="absolute top-full left-0 mt-1 bg-white/95 shadow-lg rounded-xl overflow-hidden z-50 min-w-[100px]">
+          {INSTITUTIONS.map((inst) => (
             <button
               key={inst}
-              onClick={() => onChange(inst)}
-              className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all active:scale-95 whitespace-nowrap ${
-                active
+              onClick={() => { onChange(inst); setOpen(false); }}
+              className={`w-full text-left px-3 py-2 text-xs font-semibold transition-colors ${
+                selected === inst
                   ? "bg-[#0a1f44] text-[#FFD23F]"
-                  : "bg-white/95 text-[var(--color-text)] hover:bg-gray-100"
+                  : "text-[var(--color-text)] hover:bg-gray-100"
               }`}
             >
               {inst}
             </button>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -115,9 +131,6 @@ export default function Home() {
         <>
           <KakaoMap restaurants={filteredRestaurants} onSelectRestaurant={handleSelect} />
 
-          {/* 상단 중앙 기관 필터 */}
-          <InstitutionFilter selected={institution} onChange={setInstitution} />
-
           {/* 우상단 메뉴 버튼 */}
           <button
             onClick={() => setDrawerOpen(true)}
@@ -127,12 +140,13 @@ export default function Home() {
             <MenuIcon />
           </button>
 
-          {/* 좌상단 브랜드 + 레전드 */}
+          {/* 좌상단 브랜드 + 레전드 + 기관 필터 */}
           <div className="absolute top-4 left-4 z-30 flex flex-col gap-2">
             <div className="bg-[#0a1f44] shadow-md rounded-full px-4 py-2 inline-flex w-fit">
               <span className="text-sm font-bold text-[#FFD23F]">공카 by Qho</span>
             </div>
             <TierLegend />
+            <InstitutionFilter selected={institution} onChange={setInstitution} />
           </div>
 
           <BottomSheet restaurant={selected} onClose={() => setSelected(null)} />
