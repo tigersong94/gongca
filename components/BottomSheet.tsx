@@ -19,10 +19,24 @@ const INSTITUTION_COLORS: Record<string, string> = {
   종로구의회: "#534AB7",
 };
 
+function KakaoMapIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* 핀 몸통 */}
+      <path
+        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+        fill="#3A6FD8"
+      />
+      {/* 핀 안쪽 원 */}
+      <circle cx="12" cy="9" r="2.8" fill="#fff" />
+    </svg>
+  );
+}
+
 export default function BottomSheet({ restaurant, onClose }: BottomSheetProps) {
   if (!restaurant) return null;
 
-const kakaoMapSearchUrl = `https://map.kakao.com/?q=${encodeURIComponent(restaurant.name)}`;
+  const kakaoMapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(restaurant.name)},${restaurant.lat},${restaurant.lng}`;
   const totalForBar = Object.values(restaurant.institutionAmounts).reduce((a, b) => a + b, 0);
   const institutionEntries = Object.entries(restaurant.institutionAmounts).sort(
     (a, b) => b[1] - a[1]
@@ -30,11 +44,7 @@ const kakaoMapSearchUrl = `https://map.kakao.com/?q=${encodeURIComponent(restaur
 
   return (
     <>
-      {/* 오버레이 (모바일에서 바깥 탭하면 닫힘) */}
-      <div
-        className="fixed inset-0 bg-black/20 z-40"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 bg-black/20 z-40" onClick={onClose} />
       <div className="sheet-enter fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-2xl shadow-[0_-4px_24px_rgba(0,0,0,0.12)] max-h-[75vh] overflow-y-auto">
         <div className="mx-auto max-w-xl px-5 pt-3 pb-6">
           {/* 드래그 핸들 */}
@@ -51,13 +61,13 @@ const kakaoMapSearchUrl = `https://map.kakao.com/?q=${encodeURIComponent(restaur
               </p>
             </div>
             <a
-              href={kakaoMapSearchUrl}
+              href={kakaoMapUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="카카오맵에서 보기"
               className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#FEE500] active:scale-95 transition-transform"
             >
-              <span className="text-[15px] font-bold text-[#3C1E1E]">K</span>
+              <KakaoMapIcon />
             </a>
           </div>
 
