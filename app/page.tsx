@@ -5,6 +5,7 @@ import KakaoMap from "@/components/KakaoMap";
 import BottomSheet from "@/components/BottomSheet";
 import DrawerMenu from "@/components/DrawerMenu";
 import AboutPage from "@/components/AboutPage";
+import RankingPage from "@/components/RankingPage";
 import { Restaurant, Tier } from "@/types/restaurant";
 import { buildCardStackSVG } from "@/lib/cardMarker";
 
@@ -104,7 +105,7 @@ export default function Home() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [selected, setSelected] = useState<Restaurant | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [page, setPage] = useState<"map" | "about">("map");
+  const [page, setPage] = useState<"map" | "about" | "ranking">("map");
   const [institution, setInstitution] = useState<Institution>("전체");
 
   useEffect(() => {
@@ -151,6 +152,8 @@ export default function Home() {
 
           <BottomSheet restaurant={selected} onClose={() => setSelected(null)} />
         </>
+      ) : page === "ranking" ? (
+        <RankingPage restaurants={restaurants} onBack={() => setPage("map")} />
       ) : (
         <AboutPage onBack={() => setPage("map")} />
       )}

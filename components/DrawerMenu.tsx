@@ -3,7 +3,7 @@
 interface DrawerMenuProps {
   open: boolean;
   onClose: () => void;
-  onNavigate: (page: "map" | "about") => void;
+  onNavigate: (page: "map" | "about" | "ranking") => void;
 }
 
 function CloseIcon() {
@@ -44,13 +44,16 @@ export default function DrawerMenu({ open, onClose, onNavigate }: DrawerMenuProp
             <span className="text-sm">법카 사용처 맵</span>
           </button>
 
-          <div className="w-full text-left px-3 py-3 rounded-lg flex items-center gap-3 opacity-45 cursor-not-allowed select-none">
+          <button
+            onClick={() => {
+              onNavigate("ranking");
+              onClose();
+            }}
+            className="w-full text-left px-3 py-3 rounded-lg hover:bg-[var(--color-surface)] flex items-center gap-3"
+          >
             <span className="text-lg leading-none">🏆</span>
             <span className="text-sm">법카 Top Ranking</span>
-            <span className="ml-auto text-[10px] font-medium bg-[#FF6600] text-white px-2 py-0.5 rounded-full">
-              Beta
-            </span>
-          </div>
+          </button>
 
           <button
             onClick={() => {
