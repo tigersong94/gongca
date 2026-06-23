@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "gongca.org"
+        }
+      ],
+      "destination": "https://www.gongca.org/$1",
+      "permanent": true
+    }
+  ]
+}

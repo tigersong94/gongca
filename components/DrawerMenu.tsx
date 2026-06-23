@@ -55,6 +55,14 @@ export default function DrawerMenu({ open, onClose, onNavigate }: DrawerMenuProp
             <span className="text-sm">법카 Top Ranking</span>
           </button>
 
+          <div className="w-full text-left px-3 py-3 rounded-lg flex items-center gap-3 opacity-45 cursor-not-allowed select-none">
+            <span className="text-lg leading-none">🍔</span>
+            <span className="text-sm">오늘의 점메추!</span>
+            <span className="ml-auto text-[10px] font-medium bg-[#FF6600] text-white px-2 py-0.5 rounded-full">
+              Beta
+            </span>
+          </div>
+
           <button
             onClick={() => {
               onNavigate("about");
