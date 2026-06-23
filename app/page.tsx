@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import KakaoMap from "@/components/KakaoMap";
 import BottomSheet from "@/components/BottomSheet";
 import DrawerMenu from "@/components/DrawerMenu";
@@ -24,6 +24,9 @@ const TIER_LEGEND: { tier: Tier; label: string }[] = [
   { tier: "C", label: "결제건수 상위 20~50%" },
   { tier: "D", label: "그 외" },
 ];
+
+const INSTITUTIONS = ["전체", "국회의원", "통일부", "외교부", "종로구청", "종로구의회"] as const;
+type Institution = (typeof INSTITUTIONS)[number];
 
 function TierLegend() {
   return (
@@ -50,11 +53,43 @@ function TierLegend() {
   );
 }
 
+function InstitutionFilter({
+  selected,
+  onChange,
+}: {
+  selected: Institution;
+  onChange: (v: Institution) => void;
+}) {
+  return (
+    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 w-[calc(100%-140px)] max-w-sm">
+      <div className="flex gap-1.5 overflow-x-auto no-scrollbar px-1 pb-0.5">
+        {INSTITUTIONS.map((inst) => {
+          const active = selected === inst;
+          return (
+            <button
+              key={inst}
+              onClick={() => onChange(inst)}
+              className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all active:scale-95 whitespace-nowrap ${
+                active
+                  ? "bg-[#0a1f44] text-[#FFD23F]"
+                  : "bg-white/95 text-[var(--color-text)] hover:bg-gray-100"
+              }`}
+            >
+              {inst}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [selected, setSelected] = useState<Restaurant | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [page, setPage] = useState<"map" | "about">("map");
+  const [institution, setInstitution] = useState<Institution>("전체");
 
   useEffect(() => {
     fetch("/data/restaurants.json")
@@ -62,6 +97,13 @@ export default function Home() {
       .then((data: Restaurant[]) => setRestaurants(data))
       .catch((err) => console.error("식당 데이터 로드 실패:", err));
   }, []);
+
+  const filteredRestaurants = useMemo(() => {
+    if (institution === "전체") return restaurants;
+    return restaurants.filter(
+      (r) => r.institutionCounts && r.institutionCounts[institution] !== undefined
+    );
+  }, [restaurants, institution]);
 
   const handleSelect = useCallback((r: Restaurant) => {
     setSelected(r);
@@ -71,8 +113,12 @@ export default function Home() {
     <main className="w-full h-dvh relative">
       {page === "map" ? (
         <>
-          <KakaoMap restaurants={restaurants} onSelectRestaurant={handleSelect} />
+          <KakaoMap restaurants={filteredRestaurants} onSelectRestaurant={handleSelect} />
 
+          {/* 상단 중앙 기관 필터 */}
+          <InstitutionFilter selected={institution} onChange={setInstitution} />
+
+          {/* 우상단 메뉴 버튼 */}
           <button
             onClick={() => setDrawerOpen(true)}
             aria-label="메뉴 열기"
@@ -81,6 +127,7 @@ export default function Home() {
             <MenuIcon />
           </button>
 
+          {/* 좌상단 브랜드 + 레전드 */}
           <div className="absolute top-4 left-4 z-30 flex flex-col gap-2">
             <div className="bg-[#0a1f44] shadow-md rounded-full px-4 py-2 inline-flex w-fit">
               <span className="text-sm font-bold text-[#FFD23F]">공카 by Qho</span>
